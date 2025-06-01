@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../dist/siema.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Siema Example</title>
+</head>
+<body>
+    <section x-data="cards">
+        <h1>Cards</h1>
+        <div class="cards-wrapper">
+            <div class="cards-container">
+                <template x-for="card in cardList" :key="card.title">
+                    <div class="card">
+                        <h2 x-text="card.title"></h2>
+                        <p x-text="card.content"></p>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <button @click="prevSlide">Prev</button>
+         <button @click="nextSlide">Next</button>
+        
+        <button @click="addToCards">Add</button>
+        <button @click="removeFromCards">Remove</button>
+        <button @click="restartSiema">Restart</button>
+        <button @click="setupSiema">setUp</button>
+    </section>
+
+    <script>
+         document.addEventListener('alpine:init', () => {
+            Alpine.data('cards', () => ({
+                siema: null,
+                open: false,
+                    init() {
+                        console.log('I am called automatically');
+                        this.$nextTick(() => { this.setupSiema() })
+                    },  
+                cardList: [
+                    { title: 'Card 1', content: 'Content for card 1' },
+                    { title: 'Card 2', content: 'Content for card 2' },
+                    { title: 'Card 3', content: 'Content for card 3' },
+                    { title: 'Card 4', content: 'Content for card 4' },
+                    { title: 'Card 5', content: 'Content for card 5' },
+                ],
+    
+                addToCards() {
+                    const length = this.cardList.length;
+                    this.cardList.push({
+                        title: `Card ${length + 1}`,
+                        content: `Content for card ${length + 1}`,
+                    });
+                    console.log('Card added:', this.cardList);
+                },
+                removeFromCards() {
+                    this.cardList.pop();
+                },
+                setupSiema() {
+                    this.siema = new Siema({
+                        parent: '.cards-wrapper',
+                        sliderFrame: '.cards-container',
+                        duration: 200,
+                        easing: 'ease-out',
+                        perPage: 3,
+                        startIndex: 0,
+                        loop: false,
+                        template: true,
+                    });
+                },
+                restartSiema() {
+                    this.siema.destroy(true);
+                },
+                nextSlide() {
+                    this.siema.next();
+                },
+                prevSlide() {
+                    this.siema.prev();
+                },
+            }))
+        })
+    </script>
+</body>
+</html>
