@@ -67,6 +67,7 @@
                         startIndex: 0,
                         loop: false,
                         template: true,
+                        onChange: this.slideIndexChanged,
                     });
                 },
                 restartSiema() {
@@ -78,6 +79,10 @@
                 prevSlide() {
                     this.siema.prev();
                 },
+                slideIndexChanged() {
+                    console.log('this: ', this);
+                    console.log('Slide index changed:', this.currentSlide);
+                }
             }))
         })
     </script>

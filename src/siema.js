@@ -460,7 +460,6 @@ export default class Siema {
     }
 
     if (this.pointerDown && this.drag.letItGo) {
-      e.preventDefault();
       this.drag.endX = e.touches[0].pageX;
       this.sliderFrame.style.webkitTransition = `all 0ms ${this.config.easing}`;
       this.sliderFrame.style.transition = `all 0ms ${this.config.easing}`;
@@ -484,7 +483,6 @@ export default class Siema {
       return;
     }
 
-    e.preventDefault();
     e.stopPropagation();
     this.pointerDown = true;
     this.drag.startX = e.pageX;
@@ -510,7 +508,6 @@ export default class Siema {
    * mousemove event handler
    */
   mousemoveHandler(e) {
-    e.preventDefault();
     if (this.pointerDown) {
       // if dragged element is a link
       // mark preventClick prop as a true
